@@ -33,6 +33,7 @@ class WebOTA {
 		long max_sketch_size();
 };
 
+int init_wifi_ap(const char *ssid, const char *password, const char *mdns_hostname);
 int init_wifi(const char *ssid, const char *password, const char *mdns_hostname);
 
 extern WebOTA webota;

@@ -36,6 +36,7 @@ int WebOTA::init(const unsigned int port, const char *path) {
 		return 0;
 	}
 
+	MDNS.addService(this->mdns.c_str(), "tcp", port);
 	add_http_routes(&OTAServer, path);
 	OTAServer.begin(port);
 
@@ -224,10 +225,23 @@ int init_mdns(const char *host) {
 	return 1;
 }
 
-String ip2string(IPAddress ip) {
-	String ret = String(ip[0]) + "." +  String(ip[1]) + "." + String(ip[2]) + "." + String(ip[3]);
+int init_wifi_ap(const char *ssid, const char *password, const char *mdns_hostname) {
+	Serial.print("Starting Up WiFi Access Point ... ");
+	if (WiFi.softAP(ssid, password))
+	{
+		Serial.println("Ready\r\n");
 
-	return ret;
+		Serial.printf("IP address   : %s\r\n", WiFi.softAPIP().toString().c_str());
+		Serial.printf("MAC address  : %s \r\n", WiFi.softAPmacAddress().c_str());
+
+		return init_mdns(mdns_hostname);
+	}
+	else
+	{
+		Serial.println("Failed!\r\n");
+
+		return 0;
+	}
 }
 
 int init_wifi(const char *ssid, const char *password, const char *mdns_hostname) {
@@ -246,9 +260,8 @@ int init_wifi(const char *ssid, const char *password, const char *mdns_hostname)
 	Serial.println("");
 	Serial.printf("Connected to '%s'\r\n\r\n",ssid);
 
-	String ipaddr = ip2string(WiFi.localIP());
-	Serial.printf("IP address   : %s\r\n", ipaddr.c_str());
+	Serial.printf("IP address   : %s\r\n", WiFi.localIP().toString().c_str());
 	Serial.printf("MAC address  : %s \r\n", WiFi.macAddress().c_str());
 
-	init_mdns(mdns_hostname);
+	return init_mdns(mdns_hostname);
 }
