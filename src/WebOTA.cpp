@@ -68,6 +68,8 @@ int WebOTA::handle() {
 #ifdef ESP8266
 	MDNS.update();
 #endif
+
+	return 1;
 }
 
 long WebOTA::max_sketch_size() {
@@ -194,6 +196,8 @@ int WebOTA::add_http_routes(WebServer *server, const char *path) {
 	});
 
 	server->begin();
+
+	return 1;
 }
 
 // If the MCU is in a delay() it cannot respond to HTTP OTA requests
