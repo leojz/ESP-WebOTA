@@ -85,7 +85,7 @@ R"!^!(
     <input type="submit" value="Update">
 </form>
 
-<div id="prg_wrap" style="border: 0px solid; width: 100%;">
+<div id="prg_wrap" style="border: 0px solid; width: 100%; max-width: 40em;">
    <div id="prg" style="text-shadow: 2px 2px 3px black; padding: 5px 0; display: none; border: 1px solid #008aff; background: #002180; text-align: center; color: white;"></div>
 </div>
 
@@ -227,6 +227,7 @@ int init_mdns(const char *host) {
 
 int init_wifi_ap(const char *ssid, const char *password, const char *mdns_hostname) {
 	Serial.print("Starting Up WiFi Access Point ... ");
+	WiFi.mode(WIFI_AP);
 	if (WiFi.softAP(ssid, password))
 	{
 		Serial.println("Ready\r\n");
