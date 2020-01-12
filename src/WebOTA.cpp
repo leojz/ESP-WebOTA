@@ -81,6 +81,7 @@ long WebOTA::max_sketch_size() {
 // R Macro string literal https://en.cppreference.com/w/cpp/language/string_literal
 const char ota_html[] PROGMEM = "<h1>WebOTA Version: " WEBOTA_VERSION "</h1>"
 R"!^!(
+<body style="font-family:arial,helvetica;">
 
 <form method="POST" action="#" enctype="multipart/form-data" id="upload_form">
     <input type="file" name="update" id="file">
